@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import "./EmployeeTable.css";
 import { useState } from "react";
 
-const EmployeeTable = ({ employees, onDelete }) => {
+const EmployeeTable = ({ employees, onDelete, setOrder, order }) => {
   const [searched, setSearched] = useState("");
 
   function handleSearch(e) {
@@ -15,7 +15,9 @@ const EmployeeTable = ({ employees, onDelete }) => {
       <table>
         <thead>
           <tr>
-            <th>Name</th>
+          <th><button onClick={()=> setOrder({...order, sortedBy: "Name", order: order.order === "desc" ?  "asc": "desc"})}>Name</button></th>
+            <th><button onClick={()=> setOrder({...order, sortedBy: "Level", order: order.order === "desc" ?  "asc": "desc"})}>Level</button></th>
+            <th><button onClick={()=> setOrder({...order, sortedBy: "Position", order: order.order === "desc" ?  "asc": "desc"})}>Position</button></th>
             <th>Level</th>
             <th>Position</th>
             <th>

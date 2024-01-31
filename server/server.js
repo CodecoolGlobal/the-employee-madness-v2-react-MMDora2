@@ -15,7 +15,46 @@ app.use(express.json());
 
 app.get("/api/employees/", async (req, res) => {
   const employees = await EmployeeModel.find().sort({ created: "desc" });
+  // const employees = await EmployeeModel.find().sort({name: 1}); //ABC....név szerint rendezi
+
   return res.json(employees);
+});
+app.get("/api/employees/order/", async (req, res) => {
+  console.log(req.query);
+  try {
+    if (req.query.sortedBy === "Level") {
+      const levels = { Junior: 1, Medior: 2, Senior: 3, Expert: 4, Godlike: 5 };
+      const employeesSortedByLevel = await EmployeeModel.find();
+
+      employeesSortedByLevel.sort((a, b) =>
+        req.query.order == "asc"
+          ? levels[a.level] - levels[b.level]
+          : levels[b.level] - levels[a.level]
+      );
+     return res.json(employeesSortedByLevel);
+    } else if (req.query.sortedBy === "Name") {
+      const employeesSortedByName = await EmployeeModel.find();
+
+      employeesSortedByName.sort((a, b) =>
+        req.query.order == "asc"
+          ? a.name.toLowerCase().localeCompare(b.name.toLowerCase())
+          : b.name.toLowerCase().localeCompare(a.name.toLowerCase())
+      );
+      return res.json(employeesSortedByName);
+    } else if (req.query.sortedBy === "Position") {
+      const employeesSortedByPosition = await EmployeeModel.find()
+
+      employeesSortedByPosition.sort((a, b) =>
+      req.query.order == "asc"
+        ? a.position.toLowerCase().localeCompare(b.position.toLowerCase())
+        : b.position.toLowerCase().localeCompare(a.position.toLowerCase())
+    );
+      return res.json(employeesSortedByPosition);
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status(404).json({ massage: "Server error" });
+  }
 });
 
 app.get("/api/employees/:id", async (req, res) => {
