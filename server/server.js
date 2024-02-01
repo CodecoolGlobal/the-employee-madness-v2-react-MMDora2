@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const EmployeeModel = require("./db/employee.model");
+const EquipmentModel = require("./db/equipment.model");
 
 const { MONGO_URL, PORT = 8080 } = process.env;
 
@@ -9,16 +10,33 @@ if (!MONGO_URL) {
   console.error("Missing MONGO_URL environment variable");
   process.exit(1);
 }
-
 const app = express();
 app.use(express.json());
 
+//Task3:Equipments
+app.get("/api/equipments/",async(req,res)=>{
+  const equipments=await EquipmentModel.find().sort({created:"desc"})
+  return res.json(equipments)
+})
+app.post("/api/equipments/", async (req, res, next) => {
+  const equipment = req.body;
+
+  try {
+    const saved = await EquipmentModel.create(equipment);
+    return res.json(saved);
+  } catch (err) {
+    return next(err);
+  }
+});
+
+
+//#####  Employees  ######
 app.get("/api/employees/", async (req, res) => {
   const employees = await EmployeeModel.find().sort({ created: "desc" });
   // const employees = await EmployeeModel.find().sort({name: 1}); //ABC....név szerint rendezi
-
   return res.json(employees);
 });
+
 app.get("/api/employees/order/", async (req, res) => {
   console.log(req.query);
   try {
