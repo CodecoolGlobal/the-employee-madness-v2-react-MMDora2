@@ -18,6 +18,7 @@ app.get("/api/equipments/",async(req,res)=>{
   const equipments=await EquipmentModel.find().sort({created:"desc"})
   return res.json(equipments)
 })
+
 app.post("/api/equipments/", async (req, res, next) => {
   const equipment = req.body;
 
@@ -28,7 +29,32 @@ app.post("/api/equipments/", async (req, res, next) => {
     return next(err);
   }
 });
+app.get("/api/equipments/:id", async (req, res) => {
+  const equipment = await EquipmentModel.findById(req.params.id);
+  return res.json(equipment);
+});
+app.patch("/api/equipments/:id", async (req, res, next) => {
+  try {
+    const equipment = await EquipmentModel.findOneAndUpdate(
+      { _id: req.params.id },
+      { $set: { ...req.body } },
+      { new: true }
+    );
+    return res.json(equipment);
+  } catch (err) {
+    return next(err);
+  }
+});
 
+app.delete("/api/equipments/:id", async (req, res, next) => {
+  try {
+    const equipment = await EquipmentModel.findById(req.params.id);
+    const deleted = await equipment.delete();
+    return res.json(deleted);
+  } catch (err) {
+    return next(err);
+  }
+});
 
 //#####  Employees  ######
 app.get("/api/employees/", async (req, res) => {
