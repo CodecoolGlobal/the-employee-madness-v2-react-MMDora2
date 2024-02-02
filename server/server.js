@@ -56,7 +56,13 @@ app.delete("/api/equipments/:id", async (req, res, next) => {
   }
 });
 
-//#####  Employees  ######
+//Task4: Search
+app.get("/api/search/:chosenName", async (req, res) => {
+  const employeesByName = await EmployeeModel.find({name: { $regex: req.params.chosenName, $options: 'i' }});
+  return res.json(employeesByName);
+});
+
+//##########  Employees  #########
 app.get("/api/employees/", async (req, res) => {
   const employees = await EmployeeModel.find().sort({ created: "desc" });
   // const employees = await EmployeeModel.find().sort({name: 1}); //ABC....név szerint rendezi
