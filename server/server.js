@@ -136,6 +136,20 @@ app.patch("/api/employees/:id", async (req, res, next) => {
   }
 });
 
+//Practice:Bonuses
+app.patch("/api/bonus/:employeeId", async(req,res, next)=>{
+  try{
+    const employee = await EmployeeModel.findByIdAndUpdate(
+      { _id: req.params.employeeId },
+      { $push: { bonuses: {value: req.body.value} } },
+      {new: true}
+    )
+    return res.json(employee)
+    } catch (err){
+      return next(err);
+  }
+})
+
 app.delete("/api/employees/:id", async (req, res, next) => {
   try {
     const employee = await EmployeeModel.findById(req.params.id);

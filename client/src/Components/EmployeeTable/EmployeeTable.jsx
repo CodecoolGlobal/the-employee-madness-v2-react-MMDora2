@@ -30,6 +30,7 @@ const EmployeeTable = ({ employees, onDelete, setOrder, order }) => {
                   <span>{order.order === "asc" ? " ▲" : " ▼"}</span>
                 )}
               </button>
+              <button>Present</button>
             </th>
             <th>
               <button
@@ -89,6 +90,9 @@ const EmployeeTable = ({ employees, onDelete, setOrder, order }) => {
                     >
                       Delete
                     </button>
+                    <Link to={`/bonus/${employee._id}`}>
+                      <button type="button">Bonus</button>
+                    </Link>
                   </td>
                 </tr>
               ))

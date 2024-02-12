@@ -20,3 +20,12 @@ Content-Type:  application/json
 {
   "name": "asd"
 }
+###
+
+PATCH http://localhost:8080/api/bonus/65c2434ab3d2969019964bdc
+Content-Type:  application/json
+
+{
+  "value": 800
+}
+###

@@ -17,7 +17,7 @@ import EquipmentUpdater from "./Pages/EquipmentUpdater";
 import "./index.css";
 import TableTest from "./Pages/TableTest";
 import FormTest from "./Pages/FormTest";
-
+import Bonus from "./Pages/Bonuses"
 
 const router = createBrowserRouter([
   {
@@ -56,6 +56,10 @@ const router = createBrowserRouter([
       {
         path: "/form-test",
         element: <FormTest />,
+      },
+      {
+        path: "/bonus/:employeeId",
+        element: <Bonus />,
       },
     ],
   },
