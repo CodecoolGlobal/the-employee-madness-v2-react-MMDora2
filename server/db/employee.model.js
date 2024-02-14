@@ -11,6 +11,10 @@ const EmployeeSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+  present: {
+    type: Boolean,
+    default: false,
+  },
   bonuses: [
     {
       value: Number,

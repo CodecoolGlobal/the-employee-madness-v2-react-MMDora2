@@ -3,8 +3,7 @@ import { useState } from "react";
 const EquipmentForm = ({ onSave, disabled, equipment, onCancel }) => {
   const [name, setName] = useState(equipment?.name ?? "");
   const [type, setType] = useState(equipment?.type ?? "");
-  const [amount, setAmount] = useState(equipment?.position ?? "");
-
+  const [amount, setAmount] = useState(equipment?.amount ?? "");
   const onSubmit = (e) => {
     e.preventDefault();
 
@@ -12,18 +11,17 @@ const EquipmentForm = ({ onSave, disabled, equipment, onCancel }) => {
       return onSave({
         ...equipment,
         name,
-        type: type,
-        amount: amount,
+        type,
+        amount,
       });
     }
 
     return onSave({
       name,
-      type: type,
-     amount: amount,
+      type,
+      amount,
     });
   };
-  console.log("Equipment Array Formból:", equipment);
 
   return (
     <form className="EquipmentForm" onSubmit={onSubmit}>
@@ -48,7 +46,7 @@ const EquipmentForm = ({ onSave, disabled, equipment, onCancel }) => {
       </div>
 
       <div className="control">
-        <label htmlFor="position">Amount:</label>
+        <label htmlFor="amount">Amount:</label> {/* Corrected line */}
         <input
           value={amount}
           onChange={(e) => setAmount(e.target.value)}

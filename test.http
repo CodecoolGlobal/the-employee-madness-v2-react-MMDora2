@@ -29,3 +29,5 @@ Content-Type:  application/json
   "value": 800
 }
 ###
+
+GET  http://localhost:8080/api/missing/

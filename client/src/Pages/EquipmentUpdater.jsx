@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import EquipmentForm from "../Components/EquipmentForm";
 import Loading from "../Components/Loading";
 
+
 const updateEquipment = (equipment) => {
   return fetch(`/api/equipments/${equipment._id}`, {
     method: "PATCH",
@@ -28,15 +29,15 @@ const EquipmentUpdater = () => {
 
   useEffect(() => {
     setEquipmentLoading(true);
-    fetchEquipment(id).then((equipment) => {
-      setEquipment(equipment);
+    fetchEquipment(id).then((fetchedEquipment) => {
+      setEquipment(fetchedEquipment);
       setEquipmentLoading(false);
-      });
+    });
   }, [id]);
 
-  const handleUpdateEquipment = (equipment) => {
+  const handleUpdateEquipment = (updatedEquipment) => {
     setUpdateLoading(true);
-    updateEquipment(equipment).then(() => {
+    updateEquipment(updatedEquipment).then(() => {
       setUpdateLoading(false);
       navigate("/equipments");
     });
@@ -48,7 +49,7 @@ const EquipmentUpdater = () => {
 
   return (
     <EquipmentForm
-      employee={equipment}
+      equipment={equipment} 
       onSave={handleUpdateEquipment}
       disabled={updateLoading}
       onCancel={() => navigate("/equipments")}

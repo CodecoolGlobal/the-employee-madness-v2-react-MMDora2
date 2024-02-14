@@ -16,6 +16,7 @@ const EmployeeTable = ({ employees, onDelete, setOrder, order }) => {
         <thead>
           <tr>
             <th>
+              Present
               <button
                 onClick={() =>
                   setOrder({
@@ -30,7 +31,6 @@ const EmployeeTable = ({ employees, onDelete, setOrder, order }) => {
                   <span>{order.order === "asc" ? " ▲" : " ▼"}</span>
                 )}
               </button>
-              <button>Present</button>
             </th>
             <th>
               <button
@@ -104,7 +104,14 @@ const EmployeeTable = ({ employees, onDelete, setOrder, order }) => {
                   .toLowerCase()
                   .includes(searched.toLowerCase()) ? (
                   <tr key={employee._id}>
-                    <td>{employee.name}</td>
+                    <td>
+                      <input
+                        type="checkbox"
+                        checked={employee.present}
+                        readonly
+                      />
+                      {employee.name}
+                    </td>
                     <td>{employee.level}</td>
                     <td>{employee.position}</td>
                     <td>

@@ -113,10 +113,26 @@ app.get("/api/employees/:id", async (req, res) => {
 });
 
 app.post("/api/employees/", async (req, res, next) => {
-  const employee = req.body;
+  const employee = { ...req.body, present: false };
 
   try {
     const saved = await EmployeeModel.create(employee);
+    return res.json(saved);
+  } catch (err) {
+    return next(err);
+  }
+});
+
+//Missing
+app.get("/api/missing/", async (req, res) => {
+  const missingEmployees = await EmployeeModel.find({ present: false });
+  return res.json(missingEmployees);
+});
+app.post("/api/missing/", async (req, res, next) => {
+  const missingPerson = req.body;
+
+  try {
+    const saved = await EmployeeModel.create(missingPerson);
     return res.json(saved);
   } catch (err) {
     return next(err);
