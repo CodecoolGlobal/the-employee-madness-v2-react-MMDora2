@@ -124,11 +124,17 @@ app.post("/api/employees/", async (req, res, next) => {
 });
 
 //Missing
-app.get("/api/missing/", async (req, res) => {
-  const missingEmployees = await EmployeeModel.find({ present: false });
-  return res.json(missingEmployees);
+app.get("/api/missingEmployes/", async (req, res) => {
+  try {
+    const missingEmployees = await EmployeeModel.find({ present: false });
+    return res.json(missingEmployees);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Server error" });
+  }
 });
-app.post("/api/missing/", async (req, res, next) => {
+
+app.post("/api/missingEmployes/", async (req, res, next) => {
   const missingPerson = req.body;
 
   try {
