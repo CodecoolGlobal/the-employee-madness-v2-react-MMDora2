@@ -1,13 +1,28 @@
 import { Link } from "react-router-dom";
 import "./EmployeeTable.css";
-import { useState } from "react";
 
-const EmployeeTable = ({ employees, onDelete, setOrder, order }) => {
-  const [searched, setSearched] = useState("");
+const EmployeeTable = ({
+  employees,
+  searched,
+  handleSearch,
+  onDelete,
+  setOrder,
+  order = { sortedBy: "", order: "" },
+  handleClickPresent,
+}) => {
 
-  function handleSearch(e) {
-    setSearched(e.target.value);
-    // console.log(e.target.value)
+  function handleSort(column) {
+    setOrder({
+      ...order,
+      sortedBy: column,
+      order: order.order === "desc" ? "asc" : "desc",
+    });
+  }
+
+  function renderSortIcon(column) {
+    return order.sortedBy === column ? (
+      <span>{order.order === "asc" ? " ▲" : " ▼"}</span>
+    ) : null;
   }
 
   return (
@@ -17,51 +32,21 @@ const EmployeeTable = ({ employees, onDelete, setOrder, order }) => {
           <tr>
             <th>
               Present
-              <button
-                onClick={() =>
-                  setOrder({
-                    ...order,
-                    sortedBy: "Name",
-                    order: order.order === "desc" ? "asc" : "desc",
-                  })
-                }
-              >
+              <button onClick={() => handleSort("Name")}>
                 Name
-                {order.sortedBy === "Name" && (
-                  <span>{order.order === "asc" ? " ▲" : " ▼"}</span>
-                )}
+                {renderSortIcon("Name")}
               </button>
             </th>
             <th>
-              <button
-                onClick={() =>
-                  setOrder({
-                    ...order,
-                    sortedBy: "Level",
-                    order: order.order === "desc" ? "asc" : "desc",
-                  })
-                }
-              >
+              <button onClick={() => handleSort("Level")}>
                 Level
-                {order.sortedBy === "Level" && (
-                  <span>{order.order === "asc" ? " ▲" : " ▼"}</span>
-                )}
+                {renderSortIcon("Level")}
               </button>
             </th>
             <th>
-              <button
-                onClick={() =>
-                  setOrder({
-                    ...order,
-                    sortedBy: "Position",
-                    order: order.order === "desc" ? "asc" : "desc",
-                  })
-                }
-              >
+              <button onClick={() => handleSort("Position")}>
                 Position
-                {order.sortedBy === "Position" && (
-                  <span>{order.order === "asc" ? " ▲" : " ▼"}</span>
-                )}
+                {renderSortIcon("Position")}
               </button>
             </th>
             <th>
@@ -77,7 +62,16 @@ const EmployeeTable = ({ employees, onDelete, setOrder, order }) => {
           {!searched
             ? employees.map((employee) => (
                 <tr key={employee._id}>
-                  <td>{employee.name}</td>
+                  <td>
+                    <input
+                      type="checkbox"
+                      id={employee._id}
+                      checked={employee.present}
+                      onChange={handleClickPresent}
+                      value={employee.present}
+                    ></input>
+                    {employee.name}
+                  </td>
                   <td>{employee.level}</td>
                   <td>{employee.position}</td>
                   <td>
