@@ -85,7 +85,7 @@ const EmployeeTable = ({
                       Delete
                     </button>
                     <Link to={`/bonus/${employee._id}`}>
-                      <button type="button">Bonus</button>
+                      <button type="button">$</button>
                     </Link>
                   </td>
                 </tr>
