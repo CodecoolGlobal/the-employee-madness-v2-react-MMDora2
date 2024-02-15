@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import Loading from "../Components/Loading";
 import EmployeeTable from "../Components/EmployeeTable";
+import Pagination from "../Components/EmployeeTable/Pagination";
+
+const itemsPerPage = 10;
 
 const fetchEmployees = (sortedBy, order) => {
   if (sortedBy === "" && order === "") {
@@ -26,6 +29,17 @@ const EmployeeList = () => {
   const [searched, setSearched] = useState("");
   const [counter, setCounter] = useState(0);
 
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const indexOfLastEmployee = currentPage * itemsPerPage;
+  const indexOfFirstEmployee = indexOfLastEmployee - itemsPerPage;
+  const currentEmployees = employees
+    ? employees.slice(indexOfFirstEmployee, indexOfLastEmployee)
+    : [];
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   function handleSearch(e) {
     setSearched(e.target.value);
@@ -60,11 +74,12 @@ const EmployeeList = () => {
   };
 
   const handleClickPresent = async (event) => {
-    if (event.target.type === 'checkbox') {
-    await updatePresence(event.target.id, event.target.value);
-    setCounter((counter) => {
-      return counter + 1;
-    });}
+    if (event.target.type === "checkbox") {
+      await updatePresence(event.target.id, event.target.value);
+      setCounter((counter) => {
+        return counter + 1;
+      });
+    }
   };
 
   useEffect(() => {
@@ -79,15 +94,23 @@ const EmployeeList = () => {
   }
 
   return (
-    <EmployeeTable
-      employees={employees}
-      searched={searched}
-      handleSearch={handleSearch}
-      setOrder={setOrder}
-      order={order}
-      onDelete={handleDelete}
-      handleClickPresent={handleClickPresent}
-    />
+    <div>
+      <EmployeeTable
+        employees={currentEmployees}
+        searched={searched}
+        handleSearch={handleSearch}
+        setOrder={setOrder}
+        order={order}
+        onDelete={handleDelete}
+        handleClickPresent={handleClickPresent}
+      />
+      <Pagination
+        totalEmployees={employees.length}
+        employeesPerPage={itemsPerPage}
+        currentPage={currentPage}
+        onPageChange={handlePageChange}
+      />
+    </div>
   );
 };
 
