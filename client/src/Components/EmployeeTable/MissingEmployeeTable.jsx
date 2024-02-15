@@ -1,10 +1,9 @@
-import { Link } from "react-router-dom";
 import "./EmployeeTable.css";
-import { useState } from "react";
 
 const MissingEmployeeTable = ({ employees, onDelete }) => {
     return (
       <div className="EmployeeTable">
+         <p><h2>{`Total ${employees.length} employees are missing.`}</h2></p>
         <table>
           <thead>
             <tr>
