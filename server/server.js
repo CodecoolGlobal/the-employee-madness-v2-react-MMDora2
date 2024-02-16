@@ -108,7 +108,7 @@ app.get("/api/employees/order/", async (req, res) => {
 });
 
 app.get("/api/employees/:id", async (req, res) => {
-  const employee = await EmployeeModel.findById(req.params.id);
+  const employee = await EmployeeModel.findById(req.params.id).populate("favoriteBrand");
   return res.json(employee);
 });
 
