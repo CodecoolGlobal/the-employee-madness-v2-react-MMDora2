@@ -15,6 +15,9 @@ const EmployeeSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  favoriteBrand: {
+    type: Schema.Types.ObjectId,
+    ref: 'FavoriteBrand'},
   bonuses: [
     {
       value: Number,
