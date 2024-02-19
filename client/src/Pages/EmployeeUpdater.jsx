@@ -28,24 +28,21 @@ const EmployeeUpdater = () => {
   const [employee, setEmployee] = useState(null);
   const [updateLoading, setUpdateLoading] = useState(false);
   const [employeeLoading, setEmployeeLoading] = useState(true);
-  const [brands, setBrands] = useState([]);
+  const [favBrands, setFavbrands] = useState([]);
 
+ 
   useEffect(() => {
     setEmployeeLoading(true);
-    fetchEmployee(id).then((employee) => {
+
+    const data = [fetchEmployee(id), fetchFavBrands()];
+    Promise.all(data).then((result) => {
+      const [employee, favBrands] = result;
       setEmployee(employee);
-      fetchFavBrands().then((brands) => {
-        setBrands(
-          brands.map((nextBrand) => ({
-            label: nextBrand.name,
-            value: nextBrand._id,
-          }))
-        );
-        console.log("Fav Brands:", brands);
-      });
+      setFavbrands(favBrands.map((brand) => ({label: brand.name, value: brand._id})));
       setEmployeeLoading(false);
     });
   }, [id]);
+
 
   const handleUpdateEmployee = (employee) => {
     setUpdateLoading(true);
@@ -61,7 +58,7 @@ const EmployeeUpdater = () => {
 
   return (
     <EmployeeForm
-      brands={brands}
+    favBrands={favBrands}
       employee={employee}
       onSave={handleUpdateEmployee}
       disabled={updateLoading}

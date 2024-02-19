@@ -1,12 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import React from "react";
 import Select from "react-select";
 
-const EmployeeForm = ({ onSave, disabled, employee, onCancel, brands }) => {
+const EmployeeForm = ({ onSave, disabled, employee, onCancel,favBrands }) => {
   const [name, setName] = useState(employee?.name ?? "");
   const [level, setLevel] = useState(employee?.level ?? "");
   const [position, setPosition] = useState(employee?.position ?? "");
-  const [favBrand, setFavBrand] = useState(employee?.favBrand ?? "");
+  const [favBrand, setFavBrand] = useState(employee?.favoriteBrand?._id ?? "");
+
+const defaultBand=favBrands.find((brand) => brand.value === favBrand)
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -17,7 +19,7 @@ const EmployeeForm = ({ onSave, disabled, employee, onCancel, brands }) => {
         name,
         level,
         position,
-        favBrand,
+        favoriteBrand: favBrand,
       });
     }
 
@@ -25,7 +27,7 @@ const EmployeeForm = ({ onSave, disabled, employee, onCancel, brands }) => {
       name,
       level,
       position,
-      favBrand,
+      favoriteBrand: favBrand,
     });
   };
 
@@ -64,8 +66,8 @@ const EmployeeForm = ({ onSave, disabled, employee, onCancel, brands }) => {
         <label htmlFor="favBrand">Favourite brand:</label>
 
         <Select
-          options={brands}
-          defaultValue={favBrand}
+          options={favBrands}
+          defaultValue={defaultBand} 
           onChange={(option) => setFavBrand(option.value)}
         />
       </div>
