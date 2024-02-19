@@ -15,10 +15,10 @@ const app = express();
 app.use(express.json());
 
 //Task3:Equipments
-app.get("/api/equipments/",async(req,res)=>{
-  const equipments=await EquipmentModel.find().sort({created:"desc"})
-  return res.json(equipments)
-})
+app.get("/api/equipments/", async (req, res) => {
+  const equipments = await EquipmentModel.find().sort({ created: "desc" });
+  return res.json(equipments);
+});
 
 app.post("/api/equipments/", async (req, res, next) => {
   const equipment = req.body;
@@ -59,21 +59,25 @@ app.delete("/api/equipments/:id", async (req, res, next) => {
 
 //Task4: Search
 app.get("/api/search/:chosenName", async (req, res) => {
-  const employeesByName = await EmployeeModel.find({name: { $regex: req.params.chosenName, $options: 'i' }});
+  const employeesByName = await EmployeeModel.find({
+    name: { $regex: req.params.chosenName, $options: "i" },
+  });
   return res.json(employeesByName);
 });
 
 //##########  Employees  #########
 app.get("/api/employees/", async (req, res) => {
-  const employees = await EmployeeModel.find().sort({ created: "desc" }).populate(["favoriteBrand", "equipment"]);
+  const employees = await EmployeeModel.find()
+    .sort({ created: "desc" })
+    .populate(["favoriteBrand", "equipment"]);
   // const employees = await EmployeeModel.find().sort({name: 1}); //ABC....név szerint rendezi
   return res.json(employees);
 });
 
-app.get("/api/favBrands",async(req,res)=>{
+app.get("/api/favBrands", async (req, res) => {
   const favBrands = await favoriteBrandModel.find().sort({ created: "desc" });
   return res.json(favBrands);
-})
+});
 
 app.get("/api/employees/order/", async (req, res) => {
   console.log(req.query);
@@ -87,7 +91,7 @@ app.get("/api/employees/order/", async (req, res) => {
           ? levels[a.level] - levels[b.level]
           : levels[b.level] - levels[a.level]
       );
-     return res.json(employeesSortedByLevel);
+      return res.json(employeesSortedByLevel);
     } else if (req.query.sortedBy === "Name") {
       const employeesSortedByName = await EmployeeModel.find();
 
@@ -98,13 +102,13 @@ app.get("/api/employees/order/", async (req, res) => {
       );
       return res.json(employeesSortedByName);
     } else if (req.query.sortedBy === "Position") {
-      const employeesSortedByPosition = await EmployeeModel.find()
+      const employeesSortedByPosition = await EmployeeModel.find();
 
       employeesSortedByPosition.sort((a, b) =>
-      req.query.order == "asc"
-        ? a.position.toLowerCase().localeCompare(b.position.toLowerCase())
-        : b.position.toLowerCase().localeCompare(a.position.toLowerCase())
-    );
+        req.query.order == "asc"
+          ? a.position.toLowerCase().localeCompare(b.position.toLowerCase())
+          : b.position.toLowerCase().localeCompare(a.position.toLowerCase())
+      );
       return res.json(employeesSortedByPosition);
     }
   } catch (error) {
@@ -114,22 +118,17 @@ app.get("/api/employees/order/", async (req, res) => {
 });
 
 app.get("/api/employees/:id", async (req, res) => {
-  const employee = await EmployeeModel.findById(req.params.id).populate(["favoriteBrand", "equipment"]);
+  const employee = await EmployeeModel.findById(req.params.id).populate([
+    "favoriteBrand",
+    "equipment",
+  ]);
   return res.json(employee);
 });
 
 app.post("/api/employees/", async (req, res, next) => {
   const employee = { ...req.body, present: false };
-
   try {
     const saved = await EmployeeModel.create(employee);
-    if (employee.equipment) {
-      await EmployeeModel.findByIdAndUpdate(
-        employee._id,
-        { $set: { equipment: employee.equipment } },
-        { new: true }
-      );
-    }
     return res.json(saved);
   } catch (err) {
     return next(err);
@@ -172,18 +171,18 @@ app.patch("/api/employees/:id", async (req, res, next) => {
 });
 
 //Practice:Bonuses
-app.patch("/api/bonus/:employeeId", async(req,res, next)=>{
-  try{
+app.patch("/api/bonus/:employeeId", async (req, res, next) => {
+  try {
     const employee = await EmployeeModel.findByIdAndUpdate(
       { _id: req.params.employeeId },
-      { $push: { bonuses: {value: req.body.value} } },
-      {new: true}
-    )
-    return res.json(employee)
-    } catch (err){
-      return next(err);
+      { $push: { bonuses: { value: req.body.value } } },
+      { new: true }
+    );
+    return res.json(employee);
+  } catch (err) {
+    return next(err);
   }
-})
+});
 
 app.delete("/api/employees/:id", async (req, res, next) => {
   try {

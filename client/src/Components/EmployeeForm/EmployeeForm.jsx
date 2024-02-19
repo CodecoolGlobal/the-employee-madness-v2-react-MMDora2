@@ -2,16 +2,24 @@ import { useState } from "react";
 import React from "react";
 import Select from "react-select";
 
-const EmployeeForm = ({ onSave, disabled, employee, onCancel,favBrands,equipments }) => {
+const EmployeeForm = ({
+  onSave,
+  disabled,
+  employee,
+  onCancel,
+  favBrands,
+  equipments,
+}) => {
   const [name, setName] = useState(employee?.name ?? "");
   const [level, setLevel] = useState(employee?.level ?? "");
   const [position, setPosition] = useState(employee?.position ?? "");
   const [favBrand, setFavBrand] = useState(employee?.favoriteBrand?._id ?? "");
   const [equipment, setEquipment] = useState(employee?.equipment?._id ?? "");
 
-
-const defaultBand=favBrands.find((brand) => brand.value === favBrand)
-const defaultEquipment = equipments.find((equip) => equip.value === (employee?.equipment?._id ?? ""))
+  const defaultBand = favBrands.find((brand) => brand.value === favBrand);
+  const defaultEquipment = equipments.find(
+    (equip) => equip.value === (employee?.equipment?._id ?? "")
+  );
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -72,7 +80,7 @@ const defaultEquipment = equipments.find((equip) => equip.value === (employee?.e
 
         <Select
           options={equipments}
-          defaultValue={defaultEquipment} 
+          defaultValue={defaultEquipment}
           onChange={(option) => setEquipment(option ? option.value : "")}
         />
       </div>
@@ -81,7 +89,7 @@ const defaultEquipment = equipments.find((equip) => equip.value === (employee?.e
 
         <Select
           options={favBrands}
-          defaultValue={defaultBand} 
+          defaultValue={defaultBand}
           onChange={(option) => setFavBrand(option.value)}
         />
       </div>

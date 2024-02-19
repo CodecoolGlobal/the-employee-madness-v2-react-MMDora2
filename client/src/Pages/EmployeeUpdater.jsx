@@ -21,7 +21,7 @@ const fetchFavBrands = () => {
   return fetch(`/api/favBrands`).then((res) => res.json());
 };
 
-const fetchEquipments =()=>{
+const fetchEquipments = () => {
   return fetch(`/api/equipments`).then((res) => res.json());
 };
 
@@ -35,20 +35,22 @@ const EmployeeUpdater = () => {
   const [favBrands, setFavbrands] = useState([]);
   const [equipments, setEquipments] = useState([]);
 
- 
   useEffect(() => {
     setEmployeeLoading(true);
 
-    const data = [fetchEmployee(id),fetchEquipments(), fetchFavBrands()];
+    const data = [fetchEmployee(id), fetchEquipments(), fetchFavBrands()];
     Promise.all(data).then((result) => {
-      const [employee,equipments,favBrands] = result;
+      const [employee, equipments, favBrands] = result;
       setEmployee(employee);
-      setFavbrands(favBrands.map((brand) => ({label: brand.name, value: brand._id})));
-      setEquipments(equipments.map((equip)=> ({label: equip.name, value:equip._id})));
+      setFavbrands(
+        favBrands.map((brand) => ({ label: brand.name, value: brand._id }))
+      );
+      setEquipments(
+        equipments.map((equip) => ({ label: equip.name, value: equip._id }))
+      );
       setEmployeeLoading(false);
     });
   }, [id]);
-
 
   const handleUpdateEmployee = (employee) => {
     setUpdateLoading(true);
@@ -64,7 +66,7 @@ const EmployeeUpdater = () => {
 
   return (
     <EmployeeForm
-    favBrands={favBrands}
+      favBrands={favBrands}
       employee={employee}
       onSave={handleUpdateEmployee}
       disabled={updateLoading}

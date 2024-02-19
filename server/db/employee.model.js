@@ -15,9 +15,9 @@ const EmployeeSchema = new Schema({
     type: Boolean,
     default: false,
   },
-  equipment:{
+  equipment: {
     type: Schema.Types.ObjectId,
-    ref:"Equipment"
+    ref: "Equipment",
   },
   favoriteBrand: {
     type: Schema.Types.ObjectId,
