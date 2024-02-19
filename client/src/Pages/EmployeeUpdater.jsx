@@ -21,6 +21,10 @@ const fetchFavBrands = () => {
   return fetch(`/api/favBrands`).then((res) => res.json());
 };
 
+const fetchEquipments =()=>{
+  return fetch(`/api/equipments`).then((res) => res.json());
+};
+
 const EmployeeUpdater = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -29,16 +33,18 @@ const EmployeeUpdater = () => {
   const [updateLoading, setUpdateLoading] = useState(false);
   const [employeeLoading, setEmployeeLoading] = useState(true);
   const [favBrands, setFavbrands] = useState([]);
+  const [equipments, setEquipments] = useState([]);
 
  
   useEffect(() => {
     setEmployeeLoading(true);
 
-    const data = [fetchEmployee(id), fetchFavBrands()];
+    const data = [fetchEmployee(id),fetchEquipments(), fetchFavBrands()];
     Promise.all(data).then((result) => {
-      const [employee, favBrands] = result;
+      const [employee,equipments,favBrands] = result;
       setEmployee(employee);
       setFavbrands(favBrands.map((brand) => ({label: brand.name, value: brand._id})));
+      setEquipments(equipments.map((equip)=> ({label: equip.name, value:equip._id})));
       setEmployeeLoading(false);
     });
   }, [id]);
@@ -63,6 +69,7 @@ const EmployeeUpdater = () => {
       onSave={handleUpdateEmployee}
       disabled={updateLoading}
       onCancel={() => navigate("/")}
+      equipments={equipments}
     />
   );
 };

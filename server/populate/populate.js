@@ -10,6 +10,7 @@ const brands = require("./brands.json");
 
 const EmployeeModel = require("../db/employee.model");
 const FavoriteBrandModel = require("../db/favoriteBrand.model");
+const EquipmentModel=require("../db/equipment.model")
 
 const mongoUrl = process.env.MONGO_URL;
 

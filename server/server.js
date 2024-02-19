@@ -65,7 +65,7 @@ app.get("/api/search/:chosenName", async (req, res) => {
 
 //##########  Employees  #########
 app.get("/api/employees/", async (req, res) => {
-  const employees = await EmployeeModel.find().sort({ created: "desc" }).populate("favoriteBrand");
+  const employees = await EmployeeModel.find().sort({ created: "desc" }).populate(["favoriteBrand", "equipment"]);
   // const employees = await EmployeeModel.find().sort({name: 1}); //ABC....név szerint rendezi
   return res.json(employees);
 });
@@ -114,7 +114,7 @@ app.get("/api/employees/order/", async (req, res) => {
 });
 
 app.get("/api/employees/:id", async (req, res) => {
-  const employee = await EmployeeModel.findById(req.params.id).populate("favoriteBrand");
+  const employee = await EmployeeModel.findById(req.params.id).populate(["favoriteBrand", "equipment"]);
   return res.json(employee);
 });
 
