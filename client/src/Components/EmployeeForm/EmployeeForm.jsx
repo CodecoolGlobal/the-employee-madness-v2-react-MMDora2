@@ -1,33 +1,12 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import React from "react";
 import Select from "react-select";
 
-const EmployeeForm = ({ onSave, disabled, employee, onCancel }) => {
+const EmployeeForm = ({ onSave, disabled, employee, onCancel, brands }) => {
   const [name, setName] = useState(employee?.name ?? "");
   const [level, setLevel] = useState(employee?.level ?? "");
   const [position, setPosition] = useState(employee?.position ?? "");
   const [favBrand, setFavBrand] = useState(employee?.favBrand ?? "");
-
-  const [favBrands, setFavbrands] = useState([]);
-  
-  const defaultBrand = favBrands.find((like) => like.value === favBrand._id);
-
-  
-  const fetchFavBrands = async () => {
-    return fetch("/api/favBrands").then((res) => res.json());
-  };
-
-  useEffect(() => {
-     fetchFavBrands().then((favBrandss) => {
-      setFavbrands(
-        favBrandss.map((nextBrand) => ({
-          label: nextBrand.name,
-          value: nextBrand._id,
-        }))
-      );
-      console.log(favBrands);
-    });
-  }, []);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -85,11 +64,11 @@ const EmployeeForm = ({ onSave, disabled, employee, onCancel }) => {
         <label htmlFor="favBrand">Favourite brand:</label>
 
         <Select
-          options={favBrands}
-          defaultValue={defaultBrand}
+          options={brands}
+          defaultValue={favBrand}
           onChange={(option) => setFavBrand(option.value)}
         />
-</div>
+      </div>
 
       <div className="buttons">
         <button type="submit" disabled={disabled}>

@@ -31,3 +31,6 @@ Content-Type:  application/json
 ###
 
 GET  http://localhost:8080/api/missingEmployes/
+####
+
+GET http://localhost:8080/api/favBrands
