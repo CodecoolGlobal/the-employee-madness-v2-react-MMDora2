@@ -7,11 +7,11 @@ const EmployeeForm = ({ onSave, disabled, employee, onCancel,favBrands,equipment
   const [level, setLevel] = useState(employee?.level ?? "");
   const [position, setPosition] = useState(employee?.position ?? "");
   const [favBrand, setFavBrand] = useState(employee?.favoriteBrand?._id ?? "");
-  const [equipment, setEquipment] = useState(employee?.favoriteBrand?._id ?? "");
+  const [equipment, setEquipment] = useState(employee?.equipment?._id ?? "");
 
 
 const defaultBand=favBrands.find((brand) => brand.value === favBrand)
-const defaultEquipment = equipments.find((like) => like.value === equipment._id)
+const defaultEquipment = equipments.find((equip) => equip.value === (employee?.equipment?._id ?? ""))
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -73,7 +73,7 @@ const defaultEquipment = equipments.find((like) => like.value === equipment._id)
         <Select
           options={equipments}
           defaultValue={defaultEquipment} 
-          onChange={(option) => setEquipment(option.value)}
+          onChange={(option) => setEquipment(option ? option.value : "")}
         />
       </div>
       <div className="control">

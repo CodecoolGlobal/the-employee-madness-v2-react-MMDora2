@@ -123,6 +123,13 @@ app.post("/api/employees/", async (req, res, next) => {
 
   try {
     const saved = await EmployeeModel.create(employee);
+    if (employee.equipment) {
+      await EmployeeModel.findByIdAndUpdate(
+        employee._id,
+        { $set: { equipment: employee.equipment } },
+        { new: true }
+      );
+    }
     return res.json(saved);
   } catch (err) {
     return next(err);
