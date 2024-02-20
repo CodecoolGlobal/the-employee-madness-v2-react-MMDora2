@@ -29,6 +29,7 @@ const MissingEmployees = () => {
       setEmployeesMissing(missingEmployees);
     });
   }, []);
+  
   if (loading) {
     return <Loading />;
   }
