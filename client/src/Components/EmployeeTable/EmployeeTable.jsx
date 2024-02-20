@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./EmployeeTable.css";
 
 const EmployeeTable = ({
@@ -12,6 +12,7 @@ const EmployeeTable = ({
   handleClickPresent,
 }) => {
   const [deleteConfirmation, setDeleteConfirmation] = useState(null);
+
   function handleDeleteConfirmation(id) {
     setDeleteConfirmation(id);
   }
