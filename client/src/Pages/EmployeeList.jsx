@@ -53,7 +53,6 @@ const EmployeeList = () => {
   };
 
   const updatePresence = (id, present) => {
-    console.log(present);
     if (present === "false") {
       return fetch(`/api/employees/${id}`, {
         method: "PATCH",
