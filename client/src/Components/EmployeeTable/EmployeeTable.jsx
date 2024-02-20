@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 import "./EmployeeTable.css";
 
 const EmployeeTable = ({
@@ -10,6 +11,14 @@ const EmployeeTable = ({
   order = { sortedBy: "", order: "" },
   handleClickPresent,
 }) => {
+  const [deleteConfirmation, setDeleteConfirmation] = useState(null);
+  function handleDeleteConfirmation(id) {
+    setDeleteConfirmation(id);
+  }
+
+  function handleCancelDelete() {
+    setDeleteConfirmation(null);
+  }
 
   function handleSort(column) {
     setOrder({
@@ -78,15 +87,24 @@ const EmployeeTable = ({
                     <Link to={`/update/${employee._id}`}>
                       <button type="button">Update</button>
                     </Link>
-                    <button
-                      type="button"
-                      onClick={() => onDelete(employee._id)}
-                    >
-                      Delete
-                    </button>
                     <Link to={`/bonus/${employee._id}`}>
                       <button type="button">$</button>
                     </Link>
+                    <button
+                      type="button"
+                      onClick={() => handleDeleteConfirmation(employee._id)}
+                    >
+                      Delete
+                    </button>
+                    {deleteConfirmation === employee._id && (
+                      <div className="confirmation-dialog">
+                        <p>Are you sure you want to delete {employee.name}?</p>
+                        <button onClick={() => onDelete(employee._id)}>
+                          Yes
+                        </button>
+                        <button onClick={handleCancelDelete}>No</button>
+                      </div>
+                    )}
                   </td>
                 </tr>
               ))
@@ -114,10 +132,21 @@ const EmployeeTable = ({
                       </Link>
                       <button
                         type="button"
-                        onClick={() => onDelete(employee._id)}
+                        onClick={() => handleDeleteConfirmation(employee._id)}
                       >
                         Delete
                       </button>
+                      {deleteConfirmation === employee._id && (
+                        <div className="confirmation-dialog">
+                          <p>
+                            Are you sure you want to delete {employee.name}?
+                          </p>
+                          <button onClick={() => onDelete(employee._id)}>
+                            Yes
+                          </button>
+                          <button onClick={handleCancelDelete}>No</button>
+                        </div>
+                      )}
                     </td>
                   </tr>
                 ) : null
