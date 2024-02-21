@@ -15,9 +15,9 @@ const EmployeeSchema = new Schema({
     type: Boolean,
     default: false,
   },
-  equipment:{
+  equipment: {
     type: Schema.Types.ObjectId,
-    ref:"Equipment"
+    ref: "Equipment",
   },
   favoriteBrand: {
     type: Schema.Types.ObjectId,
@@ -32,6 +32,13 @@ const EmployeeSchema = new Schema({
       },
     },
   ],
+  startDate: {
+    type: Date,
+    default: Date.now,
+  },
+  currentSalary: String,
+  desiredSalary: String,
+  favoriteColor: String,
 });
 
 module.exports = mongoose.model("Employee", EmployeeSchema);
