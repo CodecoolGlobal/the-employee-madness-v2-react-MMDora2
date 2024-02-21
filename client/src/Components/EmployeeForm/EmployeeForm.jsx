@@ -10,8 +10,8 @@ const EmployeeForm = ({ onSave, disabled, employee, onCancel,favBrands,equipment
   const [equipment, setEquipment] = useState(employee?.equipment?._id ?? "");
 
 
-const defaultBand=favBrands.find((brand) => brand.value === favBrand)
-const defaultEquipment = equipments.find((equip) => equip.value === (employee?.equipment?._id ?? ""))
+// const defaultBand=favBrands.find((brand) => brand.value === favBrand)
+// const defaultEquipment = equipments.find((equip) => equip.value === (employee?.equipment?._id ?? ""))
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -32,7 +32,7 @@ const defaultEquipment = equipments.find((equip) => equip.value === (employee?.e
       level,
       position,
       equipment,
-      favoriteBrand: favBrand,
+      favBrand,
     });
   };
 
@@ -72,7 +72,7 @@ const defaultEquipment = equipments.find((equip) => equip.value === (employee?.e
 
         <Select
           options={equipments}
-          defaultValue={defaultEquipment} 
+          defaultValue={employee && equipments.find((equip) => equip.value === (employee?.equipment?._id ?? ""))  } 
           onChange={(option) => setEquipment(option ? option.value : "")}
         />
       </div>
@@ -81,7 +81,7 @@ const defaultEquipment = equipments.find((equip) => equip.value === (employee?.e
 
         <Select
           options={favBrands}
-          defaultValue={defaultBand} 
+          defaultValue={employee && favBrands.find((brand) => brand.value === (employee?.favoriteBrand?._id ?? "")) } 
           onChange={(option) => setFavBrand(option.value)}
         />
       </div>
