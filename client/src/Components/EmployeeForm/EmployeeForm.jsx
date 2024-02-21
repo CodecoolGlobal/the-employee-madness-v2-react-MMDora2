@@ -16,32 +16,60 @@ const EmployeeForm = ({
   const [favBrand, setFavBrand] = useState(employee?.favoriteBrand?._id ?? "");
   const [equipment, setEquipment] = useState(employee?.equipment?._id ?? "");
 
-  const defaultBand = favBrands.find((brand) => brand.value === favBrand);
-  const defaultEquipment = equipments.find(
-    (equip) => equip.value === (employee?.equipment?._id ?? "")
-  );
+  const defaultBand =
+    employee && favBrands.find((brand) => brand.value === favBrand);
+  const defaultEquipment =
+    employee &&
+    equipments.find(
+      (equip) => equip.value === (employee?.equipment?._id ?? "")
+    );
 
   const onSubmit = (e) => {
     e.preventDefault();
 
-    if (employee) {
+    let updatedEquipments = [];
+    if (equipments) {
+      if (equipment !== "") {
+        const addNewEquip = { name: equipment };
+        updatedEquipments = employee.equipments.push(addNewEquip);
+      } else {
+        updatedEquipments = employee.equipments;
+      }
+      if (employee) {
+        return onSave({
+          ...employee,
+          name,
+          level,
+          position,
+          updatedEquipments,
+          favoriteBrand: favBrand,
+        });
+      }
       return onSave({
-        ...employee,
         name,
         level,
         position,
-        equipment,
-        favoriteBrand: favBrand,
+        updatedEquipments,
+        favBrand,
+      });
+    } else {
+      if (employee) {
+        return onSave({
+          ...employee,
+          name,
+          level,
+          position,
+          favoriteBrand: favBrand,
+        });
+      }
+
+      return onSave({
+        name,
+        level,
+        position,
+        favBrand,
       });
     }
-
-    return onSave({
-      name,
-      level,
-      position,
-      equipment,
-      favoriteBrand: favBrand,
-    });
   };
 
   return (
