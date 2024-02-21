@@ -42,6 +42,8 @@ const populateEmployees = async () => {
     present: 0,
     favoriteBrand: pick(brands),
     bonuses: [],
+    startDate: new Date(),
+
   }));
 
   await EmployeeModel.create(...employees);

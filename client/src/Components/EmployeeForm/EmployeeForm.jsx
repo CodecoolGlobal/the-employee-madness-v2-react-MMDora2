@@ -17,16 +17,7 @@ const EmployeeForm = ({
   const [equipment, setEquipment] = useState(employee?.equipment?._id ?? "");
 
   const [startDate, setStartDate] = useState(employee?.startDate ?? "");
-  const [currentSalary, setCurrentSalary] = useState(
-    employee?.currentSalary ?? ""
-  );
-  const [desiredSalary, setDesiredSalary] = useState(
-    employee?.desiredSalary ?? ""
-  );
-  const [favoriteColor, setFavoriteColor] = useState(
-    employee?.favoriteColor ?? ""
-  );
-
+  
   // const defaultBand=favBrands.find((brand) => brand.value === favBrand)
   // const defaultEquipment = equipments.find((equip) => equip.value === (employee?.equipment?._id ?? ""))
 
@@ -119,39 +110,7 @@ const EmployeeForm = ({
           id="startDate"
         />
       </div>
-      <div className="control">
-        <label htmlFor="currentSalary">Current Salary:</label>
-        <input
-          type="number"
-          value={currentSalary}
-          onChange={(e) => setCurrentSalary(e.target.value)}
-          name="currentSalary"
-          id="currentSalary"
-        />
-      </div>
-
-      <div className="control">
-        <label htmlFor="desiredSalary">Desired Salary:</label>
-        <input
-          type="number"
-          value={desiredSalary}
-          onChange={(e) => setDesiredSalary(e.target.value)}
-          name="desiredSalary"
-          id="desiredSalary"
-        />
-      </div>
-
-      <div className="control">
-        <label htmlFor="favoriteColor">Favorite Color:</label>
-        <input
-          type="color"
-          value={favoriteColor}
-          onChange={(e) => setFavoriteColor(e.target.value)}
-          name="favoriteColor"
-          id="favoriteColor"
-        />
-      </div>
-
+      
       <div className="control">
         <label htmlFor="equipment">Equipments:</label>
 
