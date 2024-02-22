@@ -2,74 +2,33 @@ import { useState } from "react";
 import React from "react";
 import Select from "react-select";
 
-const EmployeeForm = ({
-  onSave,
-  disabled,
-  employee,
-  onCancel,
-  favBrands,
-  equipments,
-}) => {
+const EmployeeForm = ({ onSave, disabled, employee, onCancel, favBrands }) => {
   const [name, setName] = useState(employee?.name ?? "");
   const [level, setLevel] = useState(employee?.level ?? "");
   const [position, setPosition] = useState(employee?.position ?? "");
   const [favBrand, setFavBrand] = useState(employee?.favoriteBrand?._id ?? "");
-  const [equipment, setEquipment] = useState(employee?.equipment?._id ?? "");
 
   const defaultBand =
     employee && favBrands.find((brand) => brand.value === favBrand);
-  const defaultEquipment =
-    employee &&
-    equipments.find(
-      (equip) => equip.value === (employee?.equipment?._id ?? "")
-    );
 
   const onSubmit = (e) => {
     e.preventDefault();
 
-    let updatedEquipments = [];
-    if (equipments) {
-      if (equipment !== "") {
-        const addNewEquip = { name: equipment };
-        updatedEquipments = employee.equipments.push(addNewEquip);
-      } else {
-        updatedEquipments = employee.equipments;
-      }
-      if (employee) {
-        return onSave({
-          ...employee,
-          name,
-          level,
-          position,
-          updatedEquipments,
-          favoriteBrand: favBrand,
-        });
-      }
+    if (employee) {
       return onSave({
+        ...employee,
         name,
         level,
         position,
-        updatedEquipments,
-        favBrand,
-      });
-    } else {
-      if (employee) {
-        return onSave({
-          ...employee,
-          name,
-          level,
-          position,
-          favoriteBrand: favBrand,
-        });
-      }
-
-      return onSave({
-        name,
-        level,
-        position,
-        favBrand,
+        favoriteBrand: favBrand,
       });
     }
+
+    return onSave({
+      name,
+      level,
+      position,
+    });
   };
 
   return (
@@ -104,15 +63,6 @@ const EmployeeForm = ({
         />
       </div>
       <div className="control">
-        <label htmlFor="equipment">Equipments:</label>
-
-        <Select
-          options={equipments}
-          defaultValue={defaultEquipment}
-          onChange={(option) => setEquipment(option ? option.value : "")}
-        />
-      </div>
-      <div className="control">
         <label htmlFor="favBrand">Favourite brand:</label>
 
         <Select
@@ -136,3 +86,4 @@ const EmployeeForm = ({
 };
 
 export default EmployeeForm;
+
