@@ -2,14 +2,27 @@ import { useState } from "react";
 import React from "react";
 import Select from "react-select";
 
-const EmployeeForm = ({ onSave, disabled, employee, onCancel, favBrands }) => {
+const EmployeeForm = ({
+  onSave,
+  disabled,
+  employee,
+  onCancel,
+  favBrands,
+  locations,
+}) => {
   const [name, setName] = useState(employee?.name ?? "");
   const [level, setLevel] = useState(employee?.level ?? "");
   const [position, setPosition] = useState(employee?.position ?? "");
   const [favBrand, setFavBrand] = useState(employee?.favoriteBrand?._id ?? "");
+  const [location, setLocation] = useState(employee?.location?._id ?? "");
 
   const defaultBand =
     employee && favBrands.find((brand) => brand.value === favBrand);
+
+console.log(employee.location._id)
+console.log(employee.location)
+console.log(locations)
+console.log(location)
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -21,6 +34,7 @@ const EmployeeForm = ({ onSave, disabled, employee, onCancel, favBrands }) => {
         level,
         position,
         favoriteBrand: favBrand,
+        location,
       });
     }
 
@@ -28,6 +42,7 @@ const EmployeeForm = ({ onSave, disabled, employee, onCancel, favBrands }) => {
       name,
       level,
       position,
+      location
     });
   };
 
@@ -72,6 +87,18 @@ const EmployeeForm = ({ onSave, disabled, employee, onCancel, favBrands }) => {
         />
       </div>
 
+      <div className="control">
+        <label htmlFor="flocation">Location:</label>
+
+        <Select
+          options={locations}
+          defaultValue={
+            employee && locations.find((loc) => loc.value === location)
+          }
+          onChange={(option) => setLocation(option.value)}
+        />
+      </div>
+
       <div className="buttons">
         <button type="submit" disabled={disabled}>
           {employee ? "Update Employee" : "Create Employee"}
@@ -86,4 +113,3 @@ const EmployeeForm = ({ onSave, disabled, employee, onCancel, favBrands }) => {
 };
 
 export default EmployeeForm;
-

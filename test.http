@@ -37,3 +37,6 @@ GET http://localhost:8080/api/favBrands
 
 ###
 GET http://localhost:8080/api/equipments/
+
+###
+GET http://localhost:8080/api/locations/

@@ -32,6 +32,11 @@ const EmployeeSchema = new Schema({
       },
     },
   ],
+
+  location:{
+    type: Schema.Types.ObjectId,
+    ref:"Location"
+  }
 });
 
 module.exports = mongoose.model("Employee", EmployeeSchema);

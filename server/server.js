@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const EmployeeModel = require("./db/employee.model");
 const EquipmentModel = require("./db/equipment.model");
 const favoriteBrandModel = require("./db/favoriteBrand.model");
+const LocationModel = require("./db/location.model");
 
 const { MONGO_URL, PORT = 8080 } = process.env;
 
@@ -69,7 +70,7 @@ app.get("/api/search/:chosenName", async (req, res) => {
 app.get("/api/employees/", async (req, res) => {
   const employees = await EmployeeModel.find()
     .sort({ created: "desc" })
-    .populate(["favoriteBrand", "equipment"]);
+    .populate(["favoriteBrand", "equipment", "location"]);
   // const employees = await EmployeeModel.find().sort({name: 1}); //ABC....név szerint rendezi
   return res.json(employees);
 });
@@ -121,9 +122,15 @@ app.get("/api/employees/:id", async (req, res) => {
   const employee = await EmployeeModel.findById(req.params.id).populate([
     "favoriteBrand",
     "equipment",
+    "location"
   ]);
   return res.json(employee);
 });
+
+app.get("/api/locations/", async(req,res)=>{
+  const locations=await LocationModel.find()
+  return res.json(locations)
+})
 
 app.post("/api/employees/", async (req, res, next) => {
   const employee = { ...req.body, present: false };

@@ -20,6 +20,10 @@ const fetchEmployee = (id) => {
 const fetchFavBrands = () => {
   return fetch(`/api/favBrands`).then((res) => res.json());
 };
+const fetchLoc = () => {
+  return fetch(`/api/locations/`).then((res) => res.json()).catch((error)=>{console.error("hiba",error.message)});
+};
+
 
 const EmployeeUpdater = () => {
   const { id } = useParams();
@@ -29,17 +33,19 @@ const EmployeeUpdater = () => {
   const [updateLoading, setUpdateLoading] = useState(false);
   const [employeeLoading, setEmployeeLoading] = useState(true);
   const [favBrands, setFavbrands] = useState([]);
+  const [locations, setLocations] = useState([]);
 
   useEffect(() => {
     setEmployeeLoading(true);
 
-    const data = [fetchEmployee(id), fetchFavBrands()];
+    const data = [fetchEmployee(id), fetchFavBrands(), fetchLoc()];
     Promise.all(data).then((result) => {
-      const [employee, favBrands] = result;
+      const [employee, favBrands,locations] = result;
       setEmployee(employee);
       setFavbrands(
         favBrands.map((brand) => ({ label: brand.name, value: brand._id }))
       );
+      setLocations(locations.map((loc)=>({label:loc.city, value:loc._id})))
       setEmployeeLoading(false);
     });
   }, [id]);
@@ -60,6 +66,7 @@ const EmployeeUpdater = () => {
     <EmployeeForm
       favBrands={favBrands}
       employee={employee}
+      locations={locations}
       onSave={handleUpdateEmployee}
       disabled={updateLoading}
       onCancel={() => navigate("/")}

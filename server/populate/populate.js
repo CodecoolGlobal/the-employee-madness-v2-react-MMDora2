@@ -11,6 +11,7 @@ const brands = require("./brands.json");
 const EmployeeModel = require("../db/employee.model");
 const FavoriteBrandModel = require("../db/favoriteBrand.model");
 const EquipmentModel = require("../db/equipment.model");
+const LocationModel = require("../db/location.model");
 
 const mongoUrl = process.env.MONGO_URL;
 
@@ -20,6 +21,27 @@ if (!mongoUrl) {
 }
 
 const pick = (from) => from[Math.floor(Math.random() * (from.length - 0))];
+
+const populateLocations = async () => {
+  await LocationModel.deleteMany({});
+  const locations = [
+    {
+      city: "Budapest",
+      country: "Hungary",
+    },
+    {
+      city: "Debrecen",
+      country: "Hungary",
+    },
+    {
+      city: "Bratislava",
+      country: "Slovakia",
+    }, 
+   ];
+    await LocationModel.create(...locations);
+    console.log("Loc created")
+
+};
 
 const populateBrands = async () => {
   await FavoriteBrandModel.deleteMany({});
@@ -34,6 +56,7 @@ const populateBrands = async () => {
 const populateEmployees = async () => {
   await EmployeeModel.deleteMany({});
   const brands = await FavoriteBrandModel.find();
+  const locations = await LocationModel.find()
 
   const employees = names.map((name) => ({
     name,
@@ -42,6 +65,7 @@ const populateEmployees = async () => {
     present: 0,
     favoriteBrand: pick(brands),
     bonuses: [],
+    location:pick(locations)
   }));
 
   await EmployeeModel.create(...employees);
@@ -51,6 +75,7 @@ const populateEmployees = async () => {
 const main = async () => {
   await mongoose.connect(mongoUrl);
 
+  await populateLocations()
   await populateBrands();
   await populateEmployees();
 
