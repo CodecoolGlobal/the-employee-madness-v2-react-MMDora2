@@ -1,5 +1,7 @@
 # Employee Data
 
+This project focuses on building an employee management system using advanced MERN stack operations and routing techniques. It introduces both client-side and server-side routing concepts to create a seamless user experience while handling a large database of employee data.
+
 ## Server side
 
 ### Install dependencies
